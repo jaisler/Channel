@@ -1,2 +1,1 @@
-# Channel
-Turbulent channel flow post-processing tool
+# Turbulent channel flow post-processing tool

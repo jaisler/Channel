@@ -1,0 +1,54 @@
+# CONFIGURATION FILE 
+# All paths are to be given without final slash.
+
+# Path 
+path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelReal/HexPrismComp/stat2'
+#path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelTest/archer2/compressibleM/statF'
+pathE: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelReal/dnsData/chandata/chan180/profiles'
+
+# File
+filePSD: 'psd'
+fileCorr: 'correlation'
+fileProf: 'history'
+fileRSE: 'reystress'
+filePrE: 'means'
+
+# Post-process
+post: True
+
+# Routines
+routine: 
+  psd: True
+  corr: False
+  profile: False
+
+# PSD data
+nfilepsd: 3 # number of psd files 
+psdloc: 8 # location in the .his file (data)
+psdNpoints: 11 # number of points in the psd file
+
+# Correlation data
+nfilecorr: 1 # number of correlation files 
+npcorr: 24 # number of points in z-direction
+
+# TBLV profile
+nfileprof: 3 # number of files 
+npointsz: 10
+npointsy: 200
+pfreq: 2
+qunt: 4
+
+# Experimental data
+#Lz: 3.141592653589793
+gamma: 1.4
+L: 1.0
+lzRef: 0.25 # Norm to calculate correlation x-axis graph
+tRef: 1
+#numSteps: 75000
+#time: 375
+tauw: 5.92464e-5
+rhom: 0.014
+nu: 0.000361405
+Ub: 1.0
+utau: 0.0650529 # 0.06397952655150352 ; =Um/15.63 (Kim Moin Moser 1987)
+delta: 1

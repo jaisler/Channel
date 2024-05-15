@@ -31,11 +31,11 @@ def plot_psd_pressure(f,S,path):
     plt.subplots_adjust(left=0.123, right=0.96, bottom=0.135, top=0.96)
     plt.grid(color='0.5', linestyle=':', linewidth=0.5, which='major')
     plt.xlim((1e-1,500))
-    plt.ylim((1e-14, 4))
+    plt.ylim((1e-6, 10))
     plt.xticks(fontsize = 20)
     plt.yticks(fontsize = 20)
     plt.xlabel(r'$f \delta / u_{\tau}$',fontsize = 18)
-    plt.ylabel(r'$PSD(p)/(\rho u_{\tau}^{2})^{2}$',fontsize = 18)
+    plt.ylabel(r'$PSD(p) / (\rho u_{\tau}^{2})^{2}$',fontsize = 18)
     fig.savefig(path + '/psdp.pdf', format='PDF')
     fig.savefig(path + '/psdp.png', format='png')
     plt.show()
@@ -59,11 +59,11 @@ def plot_psd_velocity(f,S,path):
     plt.grid(color='0.5', linestyle=':', linewidth=0.5, which='major')
     plt.subplots_adjust(left=0.152, right=0.96, bottom=0.135, top=0.96)
     plt.xlim((1e-1,500))
-    plt.ylim((1e-19, 0.4))
+    plt.ylim((1e-6, 5))
     plt.xticks(fontsize = 20)
     plt.yticks(fontsize = 20)
     plt.xlabel(r'$f \delta / u_{\tau}$',fontsize = 18)
-    plt.ylabel(r'$PSD(u)/u_{\tau}^{2}$',fontsize = 18)
+    plt.ylabel(r'$PSD(u) / u_{\tau}^{2}$',fontsize = 18)
     fig.savefig(path + '/psdu.pdf', format='PDF')
     fig.savefig(path + '/psdu.png', format='png')
     plt.show()
@@ -221,6 +221,68 @@ def plot_uvp(y,u,ye,ue,path):
     plt.ylabel(r'$-\langle uv \rangle / u_{\tau}^{2}$',fontsize = 18)
     fig.savefig(path + '/prof_uvp.pdf', format='PDF')
     fig.savefig(path + '/prof_uvp.png', format='png')
+    plt.show()
+
+def plot_prmsp(y,u,ye,ue,path): 
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    plt.rc('legend',**{'fontsize':18})
+    plt.xscale('log')
+
+    pe, = plt.plot(ye, ue, '-', color='k', linewidth='2')	
+    p0, = plt.plot(y, u[0], 'o', color='r', mfc='none', markersize='7')	
+    p1, = plt.plot(y, u[1], 's', color='b', mfc='none', markersize='7')
+    p2, = plt.plot(y, u[2], '^', color='g', mfc='none', markersize='7')	
+    
+    plt.legend([p0,p1,p2,pe],
+    [r'$x/\delta=5$',
+     r'$x/\delta=10$',
+     r'$x/\delta=55$',
+     r'DNS data'],
+     loc='best')
+
+    plt.tick_params(reset=True, direction="in", which='both')
+    plt.grid(color='0.5', linestyle=':', linewidth=0.5, which='major')
+    plt.subplots_adjust(left=0.14, right=0.96, bottom=0.135, top=0.96)
+    plt.xlim((6e-1,150))
+    plt.ylim((-0.1, 4.0))
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.xlabel(r'$y^{+}$',fontsize = 18)
+    plt.ylabel(r'$p_{rms}^{+}$',fontsize = 18)
+    fig.savefig(path + '/prof_prmsp.pdf', format='PDF')
+    fig.savefig(path + '/prof_prmsp.png', format='png')
+    plt.show()
+
+def plot_upp(y,u,ye,ue,path): 
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    plt.rc('legend',**{'fontsize':18})
+    plt.xscale('log')
+
+    pe, = plt.plot(ye, ue, '-', color='k', linewidth='2')	
+    p0, = plt.plot(y, u[0], 'o', color='r', mfc='none', markersize='7')	
+    p1, = plt.plot(y, u[1], 's', color='b', mfc='none', markersize='7')
+    p2, = plt.plot(y, u[2], '^', color='g', mfc='none', markersize='7')	
+    
+    plt.legend([p0,p1,p2,pe], #,pe
+    [r'$x/\delta=5$',
+     r'$x/\delta=10$',
+     r'$x/\delta=55$',
+     r'DNS data'],
+     loc='best')
+
+    plt.tick_params(reset=True, direction="in", which='both')
+    plt.grid(color='0.5', linestyle=':', linewidth=0.5, which='major')
+    plt.subplots_adjust(left=0.14, right=0.96, bottom=0.135, top=0.96)
+    plt.xlim((6e-1,150))
+    plt.ylim((-0.1, 0.8))
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.xlabel(r'$y^{+}$',fontsize = 18)
+    plt.ylabel(r'$\langle up \rangle / \rho u_{\tau}^{3}$',fontsize = 18)
+    fig.savefig(path + '/prof_upp.pdf', format='PDF')
+    fig.savefig(path + '/prof_upp.png', format='png')
     plt.show()
 
 def plot_tpcorr(z, R, path):

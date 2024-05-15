@@ -2,8 +2,8 @@
 # All paths are to be given without final slash.
 
 # Path 
-path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelReal/HexPrismComp/stat2'
-#path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelTest/archer2/compressibleM/statF'
+path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelReal/HexPrismComp/statMerge'
+#path: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelTest/archer2/compressibleM/statFTest'
 pathE: '/Users/isler/OneDrive/imperial/nektarDevelopment/channelReal/dnsData/chandata/chan180/profiles'
 
 # File
@@ -12,15 +12,16 @@ fileCorr: 'correlation'
 fileProf: 'history'
 fileRSE: 'reystress'
 filePrE: 'means'
+filePP: 'pressure'
 
 # Post-process
 post: True
 
 # Routines
 routine: 
-  psd: True
+  psd: False
   corr: False
-  profile: False
+  profile: True
 
 # PSD data
 nfilepsd: 3 # number of psd files 
@@ -33,10 +34,10 @@ npcorr: 24 # number of points in z-direction
 
 # TBLV profile
 nfileprof: 3 # number of files 
-npointsz: 10
+npointsz: 2
 npointsy: 200
 pfreq: 2
-qunt: 4
+qunt: 6
 
 # Experimental data
 #Lz: 3.141592653589793

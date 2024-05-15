@@ -22,7 +22,7 @@ if params['post']:
         for i in range(len(fp)):
             for j in range(len(fp[i])):
                 fp[i][j] = fp[i][j] * (params['delta'] / params['utau'])
-                Sp[i][j] = Sp[i][j] / (1) #(params['rhom']*(params['utau'])**2)**2
+                Sp[i][j] = Sp[i][j] / ((params['rhom']*(params['utau'])**2)**2) 
         pl.plot_psd_pressure(fp, Sp, params['path'])
         # Velocity
         umag = objPSD.GetUmag()
@@ -30,7 +30,7 @@ if params['post']:
         for i in range(len(fu)):
             for j in range(len(fu[i])):
                 fu[i][j] = fu[i][j] * (params['delta'] / params['utau'])
-                Su[i][j] = Su[i][j] / (1) #params['utau']**2
+                Su[i][j] = Su[i][j] / (params['utau']**2)
         pl.plot_psd_velocity(fu, Su, params['path'])  
         # delete object  
         del objPSD
@@ -62,6 +62,7 @@ if params['post']:
     if params['routine']['profile']:
         # Data
         objProfE = DataDNSDataProfile(params)
+        objProfEP = DataDNSDataProfilePressure(params)
         objRSE = DataDNSDataReyStress(params)
         objProf = DataTBLVProfile(params)
 
@@ -79,40 +80,55 @@ if params['post']:
         Uplus = objProf.GetUplus()
         Upluse = objProfE.GetUmean()
         headers = ['yplus', 'Uplus0', 'Uplus1', 'Uplus2']
-        fc.WriteVectorsToCSV(params['path']+'/tblvprofile_ex.csv', headers, yplus, Uplus)
-        #pl.plot_tblvprofile(yplus, Uplus, ypluspe, Upluse, params['path'])
+        fc.WriteVectorsToCSV(params['path']+'/tblvprofile.csv', headers, yplus, Uplus)
+        pl.plot_tblvprofile(yplus, Uplus, ypluspe, Upluse, params['path'])
 
         #yplure : reystresses
         yplusre = objRSE.GetYplus()
 
-        #u_[rms]^{plus}
+        #u_{rms}^{plus}
         urmsp = objProf.GetURMSP()
         urmspe = objRSE.GetURMS()
         headers = ['yplus', 'urms0', 'urms1', 'urms2']
-        fc.WriteVectorsToCSV(params['path']+'/urms_ex.csv', headers, yplus, urmsp)
-        #pl.plot_urmsp(yplus, urmsp, yplusre, urmspe, params['path'])
+        fc.WriteVectorsToCSV(params['path']+'/urms.csv', headers, yplus, urmsp)
+        pl.plot_urmsp(yplus, urmsp, yplusre, urmspe, params['path'])
     
-        #v_[rms]^{plus}    
+        #v_{rms}^{plus}    
         vrmsp = objProf.GetVRMSP()
         vrmspe = objRSE.GetVRMS()
         headers = ['yplus', 'vrms0', 'vrms1', 'vrms2']
-        fc.WriteVectorsToCSV(params['path']+'/vrms_ex.csv', headers, yplus, vrmsp)
-        #pl.plot_vrmsp(yplus, vrmsp, yplusre, vrmspe, params['path'])
+        fc.WriteVectorsToCSV(params['path']+'/vrms.csv', headers, yplus, vrmsp)
+        pl.plot_vrmsp(yplus, vrmsp, yplusre, vrmspe, params['path'])
 
-        #w_[rms]^{plus}    
+        #w_{rms}^{plus}    
         wrmsp = objProf.GetWRMSP()
         wrmspe = objRSE.GetWRMS()
         headers = ['yplus', 'wrms0', 'wrms1', 'wrms2']
-        fc.WriteVectorsToCSV(params['path']+'/wrms_ex.csv', headers, yplus, wrmsp)
-        #pl.plot_wrmsp(yplus, wrmsp, yplusre, wrmspe, params['path'])
+        fc.WriteVectorsToCSV(params['path']+'/wrms.csv', headers, yplus, wrmsp)
+        pl.plot_wrmsp(yplus, wrmsp, yplusre, wrmspe, params['path'])
 
-        # -uv / u_{tau}    
+        # -uv / u_{tau}^{2}    
         uvp = objProf.GetUVP()
         uvpe = objRSE.GetUV()
         headers = ['yplus', 'uv0', 'uv1', 'uv2']
-        fc.WriteVectorsToCSV(params['path']+'/uv_ex.csv', headers, yplus, uvp)
-        #pl.plot_uvp(yplus, uvp, yplusre, uvpe, params['path'])
-        
+        fc.WriteVectorsToCSV(params['path']+'/uv.csv', headers, yplus, uvp)
+        pl.plot_uvp(yplus, uvp, yplusre, uvpe, params['path'])
+
+        # p_{rms}     
+        prmsp = objProf.GetPRMSP()
+        ppe = objProfEP.GetPRMSP()
+        ypluse = objProfEP.GetYplus() # both
+        headers = ['yplus', 'prms0', 'prms1', 'prms2']
+        fc.WriteVectorsToCSV(params['path']+'/prms.csv', headers, yplus, prmsp)
+        pl.plot_prmsp(yplus, prmsp, ypluse, ppe, params['path'])
+
+        # up  
+        upp = objProf.GetUPP()
+        upe = objProfEP.GetUPP()
+        headers = ['yplus', 'up0', 'up1', 'up2']
+        fc.WriteVectorsToCSV(params['path']+'/up.csv', headers, yplus, upp)
+        pl.plot_upp(yplus, upp, ypluse, upe, params['path'])
+
         # Analytical solution
         #uplusAnalyt = []
         #yplusAnalyt = []
@@ -128,6 +144,7 @@ else:
     # Experimental Data
     objProfE = DataDNSDataProfile(params)
     objRSE = DataDNSDataReyStress(params)
+    objProfEP = DataDNSDataProfilePressure(params)
 
     #ypluspe : profile
     ypluspe = objProfE.GetYplus()
@@ -180,3 +197,22 @@ else:
     uv.append(uvf['uv2'])
     pl.plot_uvp(uvf['yplus'], uv, yplusre, uvpe, params['path'])
         
+    # p_{rms}^{plus}    
+    ppe = objProfEP.GetPRMSP()
+    ppf = fc.LoadCSV(params['path']+'/prms.csv')
+    pp = []
+    pp.append(ppf['prms0'])
+    pp.append(ppf['prms1'])
+    pp.append(ppf['prms2'])
+    pl.plot_prmsp(ppf['yplus'], pp, yplusre, ppe, params['path'])
+
+    # up     
+    upe = objProfEP.GetUPP()
+    upf = fc.LoadCSV(params['path']+'/up.csv')
+    up = []
+    up.append(upf['up0'])
+    up.append(upf['up1'])
+    up.append(upf['up2'])
+    pl.plot_upp(upf['yplus'], up, yplusre, upe, params['path'])
+
+    
